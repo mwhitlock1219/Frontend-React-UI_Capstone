@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
 
+import { API_URL } from './CONSTANTS';
+
 export default class Movie extends Component {
     constructor(props) {
         super(props);
@@ -44,7 +46,7 @@ export default class Movie extends Component {
             userId: this.props.user.id,
             movieId: id
         }
-        axios.post("http://localhost:8080/watchlist", package1, { headers: { Authorization: `Bearer ${token}` } })
+        axios.post(`${API_URL}/watchlist`, package1, { headers: { Authorization: `Bearer ${token}` } })
             .then(response => {
                 console.log(response);
             })

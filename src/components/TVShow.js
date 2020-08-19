@@ -48,7 +48,6 @@ export default class TVShow extends Component {
             userId: this.props.user.id,
             movieId: id
         }
-        //make variable to http :// backend from heroku
         axios.post(`${API_URL}/watchlist`, package1, { headers: { Authorization: `Bearer ${token}` } })
             .then(response => {
                 console.log(response);
