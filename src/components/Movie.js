@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Card, Table, Image, ButtonGroup, Button } from 'react-bootstrap';
+import { Card, Row, Col, Button, Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
@@ -73,39 +73,29 @@ export default class Movie extends Component {
         const { titles } = this.state;
         return (
             <Card className={"border border-dark bg-dark text-white"}>
-                <Card.Header>
-                    <FontAwesomeIcon icon={faList} /> Movies
-                </Card.Header>
+                <Card.Header><FontAwesomeIcon icon={faList} /> Movies</Card.Header>
                 <Card.Body>
-                    <Table striped bordered hover variant="dark">
-                        <thead>
-                            <tr>
-                                <th>Actions</th>
-                                <th>Image</th>
-                                <th>Title</th>
-                                <th>Overview</th>
-                                <th>Released Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {titles.map((movie) => (
-                                <tr key={movie.id} align="center">
-                                    <td>
-                                        <Button size="sm" variant="outline-primary" onClick={(event) => { this.addMovie(event, movie.id) }}><FontAwesomeIcon icon={faPlusSquare} /></Button>
-                                    </td>
-                                    <td >
-                                        <Image src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} />
-                                    </td>
-                                    <td >{movie.title}</td>
-                                    <td >{movie.overview}</td>
-                                    <td >{movie.release_date}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </Card.Body>
-            </Card>
-
+                    {titles.map((movie) => (
+                        <Card className={"border border-dark bg-secondary text-white"} key={movie.id} >
+                            <Container>
+                                <Row>
+                                    <Col md={4}>
+                                        <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} style={{ height: "330px", width: "220px" }} />
+                                    </Col>
+                                    <Col md={8}>
+                                        <Card.Body>
+                                            <Card.Title className={"font-weight-bold"}>{movie.title}</Card.Title>
+                                            <Card.Subtitle className="mb-2 text-white">{movie.release_date}</Card.Subtitle>
+                                            <Card.Text>{movie.overview}</Card.Text>
+                                            <Button size="sm" variant="outline-light" onClick={(event) => { this.addMovie(event, movie.id) }}><FontAwesomeIcon icon={faPlusSquare} /></Button>
+                                        </Card.Body>
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </Card>
+                    ))}
+                </Card.Body >
+            </Card >
         );
     }
 }
