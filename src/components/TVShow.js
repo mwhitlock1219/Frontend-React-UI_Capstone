@@ -48,7 +48,7 @@ export default class TVShow extends Component {
             userId: this.props.user.id,
             movieId: id
         }
-        axios.post(`${API_URL}/watchlist`, package1, { headers: { Authorization: `Bearer ${token}` } })
+        axios.post("https://backend-springboot-capstone.herokuapp.com/watchlist", package1, { headers: { Authorization: `Bearer ${token}` } })
             .then(response => {
                 console.log(response);
             })

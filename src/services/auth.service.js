@@ -7,7 +7,7 @@ const API_URL2 = `${API_URL}/api/auth/`;
 class AuthService {
     login(username, password) {
         return axios
-            .post(API_URL2 + "signin", {
+            .post("https://backend-springboot-capstone.herokuapp.com/api/auth/signin", {
                 username,
                 password,
             })
@@ -26,7 +26,7 @@ class AuthService {
 
     register(username, email, password) {
         console.log(username, email, password);
-        return axios.post(API_URL2 + "signup", {
+        return axios.post("https://backend-springboot-capstone.herokuapp.com/api/auth/signup", {
             username,
             email,
             password,

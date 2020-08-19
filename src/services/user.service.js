@@ -11,15 +11,15 @@ class UserService {
     }
 
     getUserBoard() {
-        return axios.get(API_URL2 + "user", { headers: authHeader() });
+        return axios.get("https://backend-springboot-capstone.herokuapp.com/api/test/user", { headers: authHeader() });
     }
 
     getModeratorBoard() {
-        return axios.get(API_URL2 + "mod", { headers: authHeader() });
+        return axios.get("https://backend-springboot-capstone.herokuapp.com/api/test/mod", { headers: authHeader() });
     }
 
     getAdminBoard() {
-        return axios.get(API_URL2 + "admin", { headers: authHeader() });
+        return axios.get("https://backend-springboot-capstone.herokuapp.com/api/test/admin", { headers: authHeader() });
     }
 }
 
