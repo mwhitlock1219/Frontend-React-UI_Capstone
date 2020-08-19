@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Card, Table, Image, ButtonGroup, Button } from 'react-bootstrap';
+import { Card, Row, Col, Button, Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
@@ -74,34 +74,27 @@ export default class TVShow extends Component {
             <Card className={"border border-dark bg-dark text-white"}>
                 <Card.Header><FontAwesomeIcon icon={faList} /> TV Shows</Card.Header>
                 <Card.Body>
-                    <Table striped bordered hover variant="dark">
-                        <thead>
-                            <tr>
-                                <th>Add Watchlist</th>
-                                <th>Image</th>
-                                <th>Title</th>
-                                <th>Overview</th>
-                                <th>First Aired</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {titles.map((tv) => (
-                                <tr key={tv.id} align="center">
-                                    <td>
-                                        <Button size="sm" variant="outline-primary" onClick={(event) => { this.addShow(event, tv.id) }}><FontAwesomeIcon icon={faPlusSquare} /></Button>
-                                    </td>
-                                    <td >
-                                        <img src={`https://image.tmdb.org/t/p/w200${tv.poster_path}`} />
-                                    </td>
-                                    <td >{tv.name}</td>
-                                    <td >{tv.overview}</td>
-                                    <td >{tv.first_air_date}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </Card.Body>
-            </Card>
+                    {titles.map((tv) => (
+                        <Card className={"border border-dark bg-secondary text-white"} key={tv.id} >
+                            <Container>
+                                <Row>
+                                    <Col md={4}>
+                                        <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w200${tv.poster_path}`} style={{ height: "330px", width: "220px" }} />
+                                    </Col>
+                                    <Col md={8}>
+                                        <Card.Body>
+                                            <Card.Title className={"font-weight-bold"}>{tv.name}</Card.Title>
+                                            <Card.Subtitle className="mb-2 text-white">{tv.first_air_date}</Card.Subtitle>
+                                            <Card.Text>{tv.overview}</Card.Text>
+                                            <Button size="sm" variant="outline-light" onClick={(event) => { this.addShow(event, tv.id) }}><FontAwesomeIcon icon={faPlusSquare} /></Button>
+                                        </Card.Body>
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </Card>
+                    ))}
+                </Card.Body >
+            </Card >
 
         );
     }
