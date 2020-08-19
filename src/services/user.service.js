@@ -6,37 +6,37 @@ import { API_URL } from '../components/CONSTANTS';
 const API_URL2 = `${API_URL}/api/test/`;
 
 class UserService {
-    // // LOCAL CODE
-    // getPublicContent() {
-    //     return axios.get("https://localhost:8080/api/test/all");
-    // }
-    // getUserBoard() {
-    //     return axios.get("https://localhost:8080/api/test/user", { headers: authHeader() });
-    // }
-
-    // getModeratorBoard() {
-    //     return axios.get("https://localhost:8080/api/test/mod", { headers: authHeader() });
-    // }
-
-    // getAdminBoard() {
-    //     return axios.get("https://localhost:8080/api/test/admin", { headers: authHeader() });
-    // }
-
+    // LOCAL CODE
     getPublicContent() {
-        return axios.get(API_URL2 + "all");
+        return axios.get("http://localhost:8080/api/test/all");
     }
-
     getUserBoard() {
-        return axios.get(API_URL2 + "user", { headers: authHeader() });
+        return axios.get("http://localhost:8080/api/test/user", { headers: authHeader() });
     }
 
     getModeratorBoard() {
-        return axios.get(API_URL2 + "mod", { headers: authHeader() });
+        return axios.get("http://localhost:8080/api/test/mod", { headers: authHeader() });
     }
 
     getAdminBoard() {
-        return axios.get(API_URL2 + "admin", { headers: authHeader() });
+        return axios.get("http://localhost:8080/api/test/admin", { headers: authHeader() });
     }
+    // // HEROKU
+    // getPublicContent() {
+    //     return axios.get(API_URL2 + "all");
+    // }
+
+    // getUserBoard() {
+    //     return axios.get(API_URL2 + "user", { headers: authHeader() });
+    // }
+
+    // getModeratorBoard() {
+    //     return axios.get(API_URL2 + "mod", { headers: authHeader() });
+    // }
+
+    // getAdminBoard() {
+    //     return axios.get(API_URL2 + "admin", { headers: authHeader() });
+    // }
 }
 
 export default new UserService();

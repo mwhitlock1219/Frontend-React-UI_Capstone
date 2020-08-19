@@ -46,22 +46,23 @@ export default class Movie extends Component {
             userId: this.props.user.id,
             movieId: id
         }
-        //  // LOCAL CODE
-        // axios.post("https://localhost:8080/watchlist", package1, { headers: { Authorization: `Bearer ${token}` } })
-        //     .then(response => {
-        //         console.log(response);
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     })
-
-        axios.post("https://backend-springboot-capstone.herokuapp.com/watchlist", package1, { headers: { Authorization: `Bearer ${token}` } })
+        // LOCAL CODE
+        axios.post("http://localhost:8080/watchlist", package1, { headers: { Authorization: `Bearer ${token}` } })
             .then(response => {
                 console.log(response);
             })
             .catch(error => {
                 console.log(error);
             })
+
+        // // HEROKU
+        // axios.post("https://backend-springboot-capstone.herokuapp.com/watchlist", package1, { headers: { Authorization: `Bearer ${token}` } })
+        //     .then(response => {
+        //         console.log(response);
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //     })
     }
 
 
@@ -90,7 +91,7 @@ export default class Movie extends Component {
                             {titles.map((movie) => (
                                 <tr key={movie.id} align="center">
                                     <td>
-                                        <Button size="sm" variant="outline-primary" onClick={(event) => { this.addMovie(event, movie.id) }}><FontAwesomeIcon icon={faPlusSquare} /> Add to Watchlist</Button>
+                                        <Button size="sm" variant="outline-primary" onClick={(event) => { this.addMovie(event, movie.id) }}><FontAwesomeIcon icon={faPlusSquare} /></Button>
                                     </td>
                                     <td >
                                         <Image src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} />

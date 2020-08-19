@@ -48,22 +48,23 @@ export default class TVShow extends Component {
             userId: this.props.user.id,
             movieId: id
         }
-        // // LOCAL CODE
-        // axios.post("http://localhost:8080/watchlist", package1, { headers: { Authorization: `Bearer ${token}` } })
-        // .then(response => {
-        //     console.log(response);
-        // })
-        // .catch(error => {
-        //     console.log(error);
-        // })
-
-        axios.post(`${API_URL}/watchlist`, package1, { headers: { Authorization: `Bearer ${token}` } })
+        // LOCAL CODE
+        axios.post("http://localhost:8080/watchlist", package1, { headers: { Authorization: `Bearer ${token}` } })
             .then(response => {
                 console.log(response);
             })
             .catch(error => {
                 console.log(error);
             })
+
+        // // HEROKU
+        // axios.post(`${API_URL}/watchlist`, package1, { headers: { Authorization: `Bearer ${token}` } })
+        //     .then(response => {
+        //         console.log(response);
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //     })
     }
 
     render() {

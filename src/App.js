@@ -76,7 +76,7 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Navbar bg="dark" variant="dark" expand="lg" aria-controls="responsive-navbar-nav" >
+          <Navbar bg="dark" variant="dark" expand="lg">
             <Link to={""} className="navbar-brand">
               <img
                 src="https://img.icons8.com/nolan/2x/movie.png"
@@ -84,81 +84,81 @@ class App extends Component {
               />
               STREAM
             </Link>
-            <div className="navbar-nav mr-auto">
-              <li className="nav-item">
-                <Link to={"addTV"} className="nav-link">
-                  TV Shows
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to={"addMovie"} className="nav-link">
-                  {" "}
-                  Movies
-                </Link>
-              </li>
-
-              {showModeratorBoard && (
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              {/* <Nav className="mr-auto"> */}
+              <div className="navbar-nav mr-auto">
                 <li className="nav-item">
-                  <Link to={"/mod"} className="nav-link">
-                    Moderator Board
+                  <Link to={"addTV"} className="nav-link">
+                    TV Shows
                   </Link>
                 </li>
-              )}
-
-              {showAdminBoard && (
                 <li className="nav-item">
-                  <Link to={"/admin"} className="nav-link">
-                    Admin Board
+                  <Link to={"addMovie"} className="nav-link">
+                    {" "}
+                    Movies
                   </Link>
                 </li>
-              )}
-
-              {currentUser && (
-                <li className="nav-item">
-                  <Link to={"/user"} className="nav-link">
-                    Watchlist
-                  </Link>
-                </li>
-              )}
-
-              {currentUser ? (
-                <div className="navbar-nav ml-auto">
+                {showModeratorBoard && (
                   <li className="nav-item">
-                    <Link to={"/profile"} className="nav-link">
-                      {currentUser.username}
+                    <Link to={"/mod"} className="nav-link">
+                      Moderator Board
                     </Link>
                   </li>
+                )}
+                {showAdminBoard && (
                   <li className="nav-item">
-                    <a href="/login" className="nav-link" onClick={this.logOut}>
-                      LogOut
-                    </a>
+                    <Link to={"/admin"} className="nav-link">
+                      Admin Board
+                    </Link>
                   </li>
-                </div>
-              ) : (
+                )}
+                {currentUser && (
+                  <li className="nav-item">
+                    <Link to={"/user"} className="nav-link">
+                      Watchlist
+                    </Link>
+                  </li>
+                )}
+                {currentUser ? (
                   <div className="navbar-nav ml-auto">
                     <li className="nav-item">
-                      <Link to={"/login"} className="nav-link">
-                        Login
-                    </Link>
+                      <Link to={"/profile"} className="nav-link">
+                        {currentUser.username}
+                      </Link>
                     </li>
-
                     <li className="nav-item">
-                      <Link to={"/register"} className="nav-link">
-                        Sign Up
-                    </Link>
+                      <a href="/login" className="nav-link" onClick={this.logOut}>
+                        LogOut
+                      </a>
                     </li>
                   </div>
-                )}
-            </div>
-            <Form inline onSubmit={this.handleSubmit}>
-              <FormControl
-                onChange={this.handleChange}
-                type="text"
-                placeholder="Search"
-                className="mr-sm-2"
-              />
-              <Button type="submit" value="Submit" variant="outline-info">Search</Button>
-            </Form>
+                ) : (
+                    <div className="navbar-nav ml-auto">
+                      <li className="nav-item">
+                        <Link to={"/login"} className="nav-link">
+                          Login
+                      </Link>
+                      </li>
+                      <li className="nav-item">
+                        <Link to={"/register"} className="nav-link">
+                          Sign Up
+                      </Link>
+                      </li>
+                    </div>
+                  )}
+              </div>
+              {/* </Nav> */}
+              <Form inline onSubmit={this.handleSubmit}>
+                <FormControl
+                  onChange={this.handleChange}
+                  type="text"
+                  placeholder="Search"
+                  className="mr-sm-2"
+                />
+                <Button type="submit" value="Submit" variant="outline-info">Search</Button>
+              </Form>
+            </Navbar.Collapse>
           </Navbar>
 
           <br />
