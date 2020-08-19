@@ -76,7 +76,7 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Navbar bg="dark" variant="dark">
+          <Navbar bg="dark" variant="dark" expand="lg" aria-controls="responsive-navbar-nav" >
             <Link to={""} className="navbar-brand">
               <img
                 src="https://img.icons8.com/nolan/2x/movie.png"
@@ -160,6 +160,7 @@ class App extends Component {
               <Button type="submit" value="Submit" variant="outline-info">Search</Button>
             </Form>
           </Navbar>
+
           <br />
           <Container>
             <Row>
