@@ -131,7 +131,7 @@ class App extends Component {
                 <FormControl
                   onChange={this.handleChange}
                   type="text"
-                  placeholder="Search"
+                  placeholder="Search..."
                   className="mr-sm-2"
                 />
                 <Button type="submit" value="Submit" variant="outline-info">Search</Button>

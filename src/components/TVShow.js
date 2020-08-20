@@ -61,21 +61,27 @@ export default class TVShow extends Component {
             )
     }
 
-    addShow(event, id) {
+    addShow(event, tv) {
         event.preventDefault();
         console.log(this.props.user.id);
-        const y = this.state.titles.find(title => {
-            if (title.id === id) {
-                return title;
-            }
-        });
+        // const y = this.state.titles.find(title => {
+        //     if (title.id === id) {
+        //         return title;
+        //     }
+        // });
 
+        var type;
+        if (tv.first_air_date) {
+            type = "tv";
+        } else if (tv.title) {
+            type = "movie"
+        }
         const token = localStorage.getItem("token")
-        console.log(y);
+        // console.log(y);
         const package1 = {
             userId: this.props.user.id,
-            movieId: id,
-            type: "tv"
+            movieId: tv.id,
+            type: type
         }
         // LOCAL CODE
         axios.post("http://localhost:8080/watchlist", package1, { headers: { Authorization: `Bearer ${token}` } })
@@ -142,17 +148,22 @@ export default class TVShow extends Component {
                     </Row>
                     <Row style={{ marginTop: "20px" }}>
                         {titles.map((tv) => (
-                            <Card onMouseEnter={this.changeBackground} onMouseLeave={this.changeBackgroundBack} className={"border border-dark text-light"} style={{ width: "272px", marginTop: "-10px", backgroundColor: "rgb(43 50 56)" }} key={tv.id} onClick={() => this.redirect(tv)}>
-                                <Card.Img variant="top" src={tv.poster_path === null ? nopic : `https://image.tmdb.org/t/p/w200${tv.poster_path}`} style={{ height: "330px", width: "220px" }} />
+                            <Card onMouseEnter={this.changeBackground} onMouseLeave={this.changeBackgroundBack} className={"border border-dark text-light"} style={{ width: "272px", marginTop: "-10px", backgroundColor: "rgb(43 50 56)" }} key={tv.id} >
+                                <Card.Img variant="top" src={tv.poster_path === null ? nopic : `https://image.tmdb.org/t/p/w200${tv.poster_path}`} style={{ height: "330px", width: "220px" }} onClick={() => this.redirect(tv)} />
                                 <Card.Title className={"font-weight-bold"} style={{ color: "rgba(255,255,255,.5)", marginTop: "10px" }}>{tv.name}</Card.Title>
                                 <Card.Subtitle className="mb-2" style={{ color: "rgba(255,255,255,.5)" }}>{tv.first_air_date}</Card.Subtitle>
                                 <Row>
-                                    <Col><Button variant="outline-light" style={{ float: 'right' }}
-                                    ><FontAwesomeIcon icon={faPlusSquare} /></Button></Col>
+                                    <Col><Button size="sm" variant="outline-light" onClick={(event) => { this.addShow(event, tv) }}><FontAwesomeIcon icon={faPlusSquare} /></Button></Col>
                                 </Row>
                             </Card>
                         ))}
-
+                        <Col >
+                            <Row className="float-right">
+                                <a onClick={this.previousPage}><img src="https://img.icons8.com/nolan/32/previous.png" /></a>
+                                <h5 style={{ color: "rgba(255,255,255,.5)", marginRight: "10px", marginLeft: "10px" }}>{this.state.page}</h5>
+                                <a onClick={this.nextPage}><img src="https://img.icons8.com/nolan/32/next.png" /></a>
+                            </Row>
+                        </Col>
                     </Row>
                 </Container>
             </div>

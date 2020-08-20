@@ -59,21 +59,27 @@ export default class Movie extends Component {
             )
     }
 
-    addMovie(event, id) {
+    addMovie(event, titles) {
         event.preventDefault();
-        console.log(this.props.user.id);
-        const y = this.state.titles.find(title => {
-            if (title.id === id) {
-                return title;
-            }
-        });
+        // console.log(this.props.user.id);
+        // const y = this.state.titles.find(title => {
+        //     if (title.id === id) {
+        //         return title;
+        //     }
+        // });
 
+        var type;
+        if (titles.first_air_date) {
+            type = "tv";
+        } else if (titles.title) {
+            type = "movie"
+        }
         const token = localStorage.getItem("token")
-        console.log(y);
+        // console.log(y);
         const package1 = {
             userId: this.props.user.id,
-            movieId: id,
-            type: "movie"
+            movieId: titles.id,
+            type: type
         }
         // LOCAL CODE
         axios.post("http://localhost:8080/watchlist", package1, { headers: { Authorization: `Bearer ${token}` } })
@@ -141,13 +147,12 @@ export default class Movie extends Component {
                     </Row>
                     <Row style={{ marginTop: "20px" }}>
                         {titles.map((movie) => (
-                            <Card onMouseEnter={this.changeBackground} onMouseLeave={this.changeBackgroundBack} className={"border border-dark text-light"} style={{ width: "272px", marginTop: "-10px", backgroundColor: "rgb(43 50 56)" }} key={movie.id} onClick={() => this.redirect(movie)}>
-                                <Card.Img variant="top" src={movie.poster_path === null ? nopic : `https://image.tmdb.org/t/p/w200${movie.poster_path}`} style={{ height: "330px", width: "220px" }} />
+                            <Card onMouseEnter={this.changeBackground} onMouseLeave={this.changeBackgroundBack} className={"border border-dark text-light"} style={{ width: "272px", marginTop: "-10px", backgroundColor: "rgb(43 50 56)" }} key={movie.id} >
+                                <Card.Img variant="top" src={movie.poster_path === null ? nopic : `https://image.tmdb.org/t/p/w200${movie.poster_path}`} style={{ height: "330px", width: "220px" }} onClick={() => this.redirect(movie)} />
                                 <Card.Title className={"font-weight-bold"} style={{ color: "rgba(255,255,255,.5)", marginTop: "10px" }}>{movie.title}</Card.Title>
                                 <Card.Subtitle className="mb-2" style={{ color: "rgba(255,255,255,.5)" }}>{movie.release_date}</Card.Subtitle>
                                 <Row>
-                                    <Col><Button variant="outline-light" style={{ float: 'right' }}
-                                    ><FontAwesomeIcon icon={faPlusSquare} /></Button></Col>
+                                    <Col><Button size="sm" variant="outline-light" onClick={(event) => { this.addShow(event, titles) }}><FontAwesomeIcon icon={faPlusSquare} /></Button></Col>
                                 </Row>
                             </Card>
                         ))}

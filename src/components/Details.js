@@ -102,12 +102,11 @@ export default class SearchResults extends Component {
                                 </Col>
                                 <Col md={1}></Col>
                                 <Col md={7}>
-                                    {/* <Row>"{details.tagline}"</Row> */}
                                     <br />
                                     <p className="font-weight-bold">Average Rating:</p>
-                                    <p> <img src="./res/tmbd_logo" style={{ height: "12px", width: "12px" }} />{details.vote_average}</p>
+                                    <p> <img src="https://cdn-images-1.medium.com/max/1200/1*vIR7iO-1GnY2xYxL6NiYkw.png" style={{ height: "20px", width: "20px" }} />{details.vote_average}</p>
                                     <br />
-                                    <p className="font-weight-bold">Overview:</p>
+                                    <p className="font-weight-bold">Synopsis:</p>
                                     <p>{details.overview}</p>
                                     <br />
                                     <Row>
