@@ -59,7 +59,7 @@ export default class Movie extends Component {
             )
     }
 
-    addMovie(event, titles) {
+    addMovie(event, movie) {
         event.preventDefault();
         // console.log(this.props.user.id);
         // const y = this.state.titles.find(title => {
@@ -69,16 +69,16 @@ export default class Movie extends Component {
         // });
 
         var type;
-        if (titles.first_air_date) {
+        if (movie.first_air_date) {
             type = "tv";
-        } else if (titles.title) {
+        } else if (movie.title) {
             type = "movie"
         }
         const token = localStorage.getItem("token")
         // console.log(y);
         const package1 = {
             userId: this.props.user.id,
-            movieId: titles.id,
+            movieId: movie.id,
             type: type
         }
         // LOCAL CODE
@@ -135,7 +135,7 @@ export default class Movie extends Component {
                 <Container style={{ marginTop: "40px", marginBottom: "80px" }}>
                     <Row>
                         <Col md={10}>
-                            <h3 style={{ color: "rgba(255,255,255,.5)" }}>Popular TV Shows</h3>
+                            <h3 style={{ color: "rgba(255,255,255,.5)" }}>Popular Movies</h3>
                         </Col>
                         <Col md={2}>
                             <Row className="float-right">
@@ -152,7 +152,7 @@ export default class Movie extends Component {
                                 <Card.Title className={"font-weight-bold"} style={{ color: "rgba(255,255,255,.5)", marginTop: "10px" }}>{movie.title}</Card.Title>
                                 <Card.Subtitle className="mb-2" style={{ color: "rgba(255,255,255,.5)" }}>{movie.release_date}</Card.Subtitle>
                                 <Row>
-                                    <Col><Button size="sm" variant="outline-light" onClick={(event) => { this.addShow(event, titles) }}><FontAwesomeIcon icon={faPlusSquare} /></Button></Col>
+                                    <Col><Button size="sm" variant="outline-light" onClick={(event) => { this.addMovie(event, movie) }}><FontAwesomeIcon icon={faPlusSquare} /></Button></Col>
                                 </Row>
                             </Card>
                         ))}

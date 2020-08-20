@@ -173,7 +173,7 @@ export default class Watchlist extends Component {
             <Container style={{ marginTop: "40px", marginBottom: "80px" }}>
                 <Row>
                     <Col md={10}>
-                        <h3 style={{ color: "rgba(255,255,255,.5)" }}>Popular TV Shows</h3>
+                        <h3 style={{ color: "rgba(255,255,255,.5)" }}>Watchlist</h3>
                     </Col>
                     <Col md={2}>
                         <Row className="float-right">
