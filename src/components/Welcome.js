@@ -11,6 +11,7 @@ class Welcome extends React.Component {
                     We are glad you're here! With STREAM you can easily find information about your favorite movies and TV shows and even save them to your 'Watchlist' to view later.
                 </p>
             </header>
+            
         )
     }
 }
