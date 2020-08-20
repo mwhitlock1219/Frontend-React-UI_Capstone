@@ -146,6 +146,10 @@ export default class TVShow extends Component {
                                 <Card.Img variant="top" src={tv.poster_path === null ? nopic : `https://image.tmdb.org/t/p/w200${tv.poster_path}`} style={{ height: "330px", width: "220px" }} />
                                 <Card.Title className={"font-weight-bold"} style={{ color: "rgba(255,255,255,.5)", marginTop: "10px" }}>{tv.name}</Card.Title>
                                 <Card.Subtitle className="mb-2" style={{ color: "rgba(255,255,255,.5)" }}>{tv.first_air_date}</Card.Subtitle>
+                                <Row>
+                                    <Col><Button variant="outline-light" style={{ float: 'right' }}
+                                    ><FontAwesomeIcon icon={faPlusSquare} /></Button></Col>
+                                </Row>
                             </Card>
                         ))}
 

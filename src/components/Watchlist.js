@@ -75,33 +75,7 @@ export default class Watchlist extends Component {
             <Card className={"border border-dark bg-dark text-white"}>
                 <Card.Header><FontAwesomeIcon icon={faList} /> Watchlist</Card.Header>
                 <Card.Body>
-                    <Table striped bordered hover variant="dark">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Image</th>
-                                <th>Title</th>
-                                <th>Overview</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {/* <Button size="sm" variant="outline-primary" onClick={(event) => { this.pullWatchList(event, this.props.user.id) }}><FontAwesomeIcon icon={faPlusSquare} /></Button> */}
-                            {/* {titles.map((movie) => (
-                                <tr key={movie.id} align="center">
-                                    <td >
-                                        <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} />
-                                    </td>
-                                    <td >
-                                        <div>{movie.title}</div>
-                                    </td>
-                                    <td >
-                                        <div>{movie.overview}</div>
-                                    </td>
-
-                                </tr>
-                            ))} */}
-                        </tbody>
-                    </Table>
+                    
                 </Card.Body>
             </Card>
 

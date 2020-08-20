@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import tmdb_logo from '../res/tmdb_logo.png';
+
 import { Card, Table, ButtonGroup, Button, Container, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList, faPlusSquare, faBacon } from '@fortawesome/free-solid-svg-icons'
@@ -89,17 +91,34 @@ export default class SearchResults extends Component {
         console.log(this.state.searchresults);
         const details = this.state.searchresults;
         return (
-            <Card className={"border border-dark bg-dark text-white"}>
-                <Card.Header><FontAwesomeIcon icon={faList} /> {this.state.movie ? details.title : details.name}</Card.Header>
-                <Card.Body>
-                    <Container>
-                        <Row>
-                            <Col md={4}>
-                                <Card.Img variant="top" src={this.state.person ? `https://image.tmdb.org/t/p/w200${details.profile_path}` : `https://image.tmdb.org/t/p/w200${details.poster_path}`} />
-                            </Col>
-                        </Row>
-                    </Container>
-                    {/* <Table striped bordered hover variant="dark">
+            <Container style={{ marginTop: "40px", marginBottom: "80px" }} >
+                <Card className={"border border-dark bg-dark text-white"}>
+                    <Card.Header className="font-weight-bold" style={{ fontSize: "30px" }}> {this.state.movie ? details.title : details.name}</Card.Header>
+                    <Card.Body>
+                        <Container>
+                            <Row>
+                                <Col md={4}>
+                                    <Card.Img variant="top" src={this.state.person ? `https://image.tmdb.org/t/p/w200${details.profile_path}` : `https://image.tmdb.org/t/p/w200${details.poster_path}`} />
+                                </Col>
+                                <Col md={1}></Col>
+                                <Col md={7}>
+                                    {/* <Row>"{details.tagline}"</Row> */}
+                                    <br />
+                                    <p className="font-weight-bold">Average Rating:</p>
+                                    <p> <img src="./res/tmbd_logo" style={{ height: "12px", width: "12px" }} />{details.vote_average}</p>
+                                    <br />
+                                    <p className="font-weight-bold">Overview:</p>
+                                    <p>{details.overview}</p>
+                                    <br />
+                                    <Row>
+                                        <Col>
+                                            <Button size="sm" variant="outline-light contained" style={{ float: 'right' }}><FontAwesomeIcon icon={faPlusSquare} /> Add to WatchList</Button>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </Row>
+                        </Container>
+                        {/* <Table striped bordered hover variant="dark">
                         <thead>
                             <tr>
                                 <th>Add Watchlist</th>
@@ -128,9 +147,9 @@ export default class SearchResults extends Component {
                             ))}
                         </tbody>
                     </Table> */}
-                </Card.Body>
-            </Card>
-
+                    </Card.Body>
+                </Card>
+            </Container>
         );
 
     }
