@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Card, Table, ButtonGroup, Button, Container, Row, Column } from 'react-bootstrap';
+import { Card, Table, ButtonGroup, Button, Container, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList, faPlusSquare, faBacon } from '@fortawesome/free-solid-svg-icons'
 
@@ -8,44 +8,95 @@ export default class SearchResults extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchresults: [],
+            searchresults: '',
+            movie: false,
+            tvshow: false,
+            person: false,
         };
 
     }
 
     componentDidMount() {
+        let title = '';
         let titleid = '';
-        if (localStorage && localStorage.getItem('titleid')) {
-            titleid = JSON.parse(localStorage.getItem('titleid'));
+        if (localStorage && localStorage.getItem('title')) {
+            title = JSON.parse(localStorage.getItem('title'));
+            titleid = title.id;
         }
-        // will 'fetch'/return api data
-        // fetch("https://api.themoviedb.org/3/search/multi?api_key=b644ab6b14fc5346cabffe34357d92a0&query="+ "star" +"&page=1")
+
+        if (title.first_air_date) {
+            this.setState({ tvshow: true });
+            this.callTvApi(title.id);
+        } else if (title.title) {
+            this.setState({ movie: true });
+            this.callMovieApi(title.id);
+        } else if (title.gender) {
+            this.setState({ person: true });
+            this.callPersonApi(title.id);
+        }
+    }
+
+    callTvApi(titleid) {
+        fetch("https://api.themoviedb.org/3/tv/" + titleid + "?api_key=b644ab6b14fc5346cabffe34357d92a0&language=en-US")
+            .then(response => response.json())
+            .then(
+                //handle the results
+                (data) => {
+                    // console.log(data);
+                    this.setState({
+                        searchresults: data
+                    });
+                    console.log("######Found a TV Show: " + data);
+                }
+
+            )
+    }
+
+    callMovieApi(titleid) {
         fetch("https://api.themoviedb.org/3/movie/" + titleid + "?api_key=b644ab6b14fc5346cabffe34357d92a0&language=en-US")
             .then(response => response.json())
             .then(
                 //handle the results
                 (data) => {
-                    console.log(data);
+                    // console.log(data);
                     this.setState({
                         searchresults: data
                     });
+                    console.log("######Found a Movie: " + data);
                 }
 
             )
+    }
 
+    callPersonApi(titleid) {
+        fetch("https://api.themoviedb.org/3/person/" + titleid + "?api_key=b644ab6b14fc5346cabffe34357d92a0&language=en-US")
+            .then(response => response.json())
+            .then(
+                //handle the results
+                (data) => {
+                    // console.log(data);
+                    this.setState({
+                        searchresults: data
+                    });
+                    console.log("######Found a Person: " + data);
+                }
+
+            )
     }
 
 
     render() {
         console.log(this.state.searchresults);
-        const { searchresults } = this.state;
+        const details = this.state.searchresults;
         return (
             <Card className={"border border-dark bg-dark text-white"}>
-                <Card.Header><FontAwesomeIcon icon={faList} /> {searchresults.title}</Card.Header>
+                <Card.Header><FontAwesomeIcon icon={faList} /> {this.state.movie ? details.title : details.name}</Card.Header>
                 <Card.Body>
                     <Container>
                         <Row>
-                            {searchresults.title}
+                            <Col md={4}>
+                                <Card.Img variant="top" src={this.state.person ? `https://image.tmdb.org/t/p/w200${details.profile_path}` : `https://image.tmdb.org/t/p/w200${details.poster_path}`} />
+                            </Col>
                         </Row>
                     </Container>
                     {/* <Table striped bordered hover variant="dark">

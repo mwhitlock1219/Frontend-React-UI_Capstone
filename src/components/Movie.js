@@ -4,6 +4,7 @@ import { Card, Row, Col, Button, Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
+import nopic from '../res/nopic.png';
 
 import { API_URL } from './CONSTANTS';
 
@@ -11,26 +12,53 @@ export default class Movie extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            titles: []
+            titles: [],
+            page: "",
+            pagenum: "1",
+            totalpages: ""
         };
+        this.redirect = this.redirect.bind(this);
+        this.nextPage = this.nextPage.bind(this);
+        this.previousPage = this.previousPage.bind(this);
+
     }
 
     componentDidMount() {
         // will 'fetch'/return api data
-        fetch("https://api.themoviedb.org/3/movie/popular?api_key=b644ab6b14fc5346cabffe34357d92a0&language=en-US&page=1")
+        fetch("https://api.themoviedb.org/3/movie/popular?api_key=b644ab6b14fc5346cabffe34357d92a0&language=en-US&page=" + this.state.pagenum)
             .then(response => response.json())
             .then(
                 //handle the results
                 (data) => {
                     // console.log(data.results);
                     this.setState({
-                        titles: data.results
+                        titles: data.results,
+                        page: data.page,
+                        totalpages: data.total_pages
                     });
                 }
 
             );
 
     }
+
+    fetchApi() {
+        fetch("https://api.themoviedb.org/3/movie/popular?api_key=b644ab6b14fc5346cabffe34357d92a0&language=en-US&page=" + this.state.pagenum)
+            .then(response => response.json())
+            .then(
+                //handle the results
+                (data) => {
+                    // console.log(data.results);
+                    this.setState({
+                        titles: data.results,
+                        page: data.page,
+                        totalpages: data.total_pages
+                    });
+                }
+
+            )
+    }
+
     addMovie(event, id) {
         event.preventDefault();
         console.log(this.props.user.id);
@@ -56,7 +84,7 @@ export default class Movie extends Component {
                 console.log(error);
             })
 
-        
+
         // // HEROKU
         // axios.post("https://backend-springboot-capstone.herokuapp.com/watchlist", package1, { headers: { Authorization: `Bearer ${token}` } })
         //     .then(response => {
@@ -67,37 +95,62 @@ export default class Movie extends Component {
         //     })
     }
 
+    changeBackground(e) {
+        e.target.style.background = 'rgb(50 60 70)';
+    }
+    changeBackgroundBack(e) {
+        e.target.style.background = 'rgb(43 50 56)';
+    }
+
+    redirect(movie) {
+        localStorage.setItem('title', JSON.stringify(movie));
+        window.location.href = '/title_details';
+    }
+
+    previousPage() {
+        if (this.state.page > 1) {
+            this.setState({ pagenum: this.state.page - 1 });
+            this.fetchApi();
+        }
+    }
+
+    nextPage() {
+        if (this.state.page < this.state.totalpages) {
+            this.setState({ pagenum: this.state.page + 1 });
+            this.fetchApi();
+        }
+    }
 
     render() {
-
-        console.log(this.state);
-
         const { titles } = this.state;
+
         return (
-            <Card className={"border border-dark bg-dark text-white"}>
-                <Card.Header><FontAwesomeIcon icon={faList} /> Movies</Card.Header>
-                <Card.Body>
-                    {titles.map((movie) => (
-                        <Card className={"border border-dark bg-secondary text-white"} key={movie.id} >
-                            <Container>
-                                <Row>
-                                    <Col md={4}>
-                                        <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} style={{ height: "330px", width: "220px" }} />
-                                    </Col>
-                                    <Col md={8}>
-                                        <Card.Body>
-                                            <Card.Title className={"font-weight-bold"}>{movie.title}</Card.Title>
-                                            <Card.Subtitle className="mb-2 text-white">{movie.release_date}</Card.Subtitle>
-                                            <Card.Text>{movie.overview}</Card.Text>
-                                            <Button size="sm" variant="outline-light" onClick={(event) => { this.addMovie(event, movie.id) }}><FontAwesomeIcon icon={faPlusSquare} /></Button>
-                                        </Card.Body>
-                                    </Col>
-                                </Row>
-                            </Container>
-                        </Card>
-                    ))}
-                </Card.Body >
-            </Card >
+            <div>
+                <Container style={{ marginTop: "40px", marginBottom: "80px" }}>
+                    <Row>
+                        <Col md={10}>
+                            <h3 style={{ color: "rgba(255,255,255,.5)" }}>Popular TV Shows</h3>
+                        </Col>
+                        <Col md={2}>
+                            <Row className="float-right">
+                                <a onClick={this.previousPage}><img src="https://img.icons8.com/nolan/32/previous.png" /></a>
+                                <h5 style={{ color: "rgba(255,255,255,.5)", marginRight: "10px", marginLeft: "10px" }}>{this.state.page}</h5>
+                                <a onClick={this.nextPage}><img src="https://img.icons8.com/nolan/32/next.png" /></a>
+                            </Row>
+                        </Col>
+                    </Row>
+                    <Row style={{ marginTop: "20px" }}>
+                        {titles.map((movie) => (
+                            <Card onMouseEnter={this.changeBackground} onMouseLeave={this.changeBackgroundBack} className={"border border-dark text-light"} style={{ width: "272px", marginTop: "-10px", backgroundColor: "rgb(43 50 56)" }} key={movie.id} onClick={() => this.redirect(movie)}>
+                                <Card.Img variant="top" src={movie.poster_path === null ? nopic : `https://image.tmdb.org/t/p/w200${movie.poster_path}`} style={{ height: "330px", width: "220px" }} />
+                                <Card.Title className={"font-weight-bold"} style={{ color: "rgba(255,255,255,.5)", marginTop: "10px" }}>{movie.title}</Card.Title>
+                                <Card.Subtitle className="mb-2" style={{ color: "rgba(255,255,255,.5)" }}>{movie.release_date}</Card.Subtitle>
+                            </Card>
+                        ))}
+
+                    </Row>
+                </Container>
+            </div>
         );
     }
 }

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, NavDropdown, Nav } from "react-bootstrap";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar, Form, FormControl, Button } from "react-bootstrap";
@@ -76,6 +76,7 @@ class App extends Component {
     return (
       <Router>
         <div>
+
           <Navbar bg="dark" variant="dark" expand="lg">
             <Link to={""} className="navbar-brand">
               <img
@@ -86,8 +87,7 @@ class App extends Component {
             </Link>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-              {/* <Nav className="mr-auto"> */}
-              <div className="navbar-nav mr-auto">
+              <Nav className="mr-auto">
                 <li className="nav-item">
                   <Link to={"addTV"} className="nav-link">
                     TV Shows
@@ -99,20 +99,6 @@ class App extends Component {
                     Movies
                   </Link>
                 </li>
-                {showModeratorBoard && (
-                  <li className="nav-item">
-                    <Link to={"/mod"} className="nav-link">
-                      Moderator Board
-                    </Link>
-                  </li>
-                )}
-                {showAdminBoard && (
-                  <li className="nav-item">
-                    <Link to={"/admin"} className="nav-link">
-                      Admin Board
-                    </Link>
-                  </li>
-                )}
                 {currentUser && (
                   <li className="nav-item">
                     <Link to={"/user"} className="nav-link">
@@ -120,35 +106,27 @@ class App extends Component {
                     </Link>
                   </li>
                 )}
+              </Nav>
+              <NavDropdown title={<img className="thumbnail-image" src="https://img.icons8.com/nolan/48/user-male-circle.png" alt="Account pic" />} id="basic-nav-dropdown">
+                {showModeratorBoard && (
+                  <NavDropdown.Item href={"/mod"}>Moderator Board</NavDropdown.Item>
+                )}
+                {showAdminBoard && (
+                  <NavDropdown.Item href={"/admin"}>Admin Board</NavDropdown.Item>
+                )}
+                <NavDropdown.Divider />
                 {currentUser ? (
-                  <div className="navbar-nav ml-auto">
-                    <li className="nav-item">
-                      <Link to={"/profile"} className="nav-link">
-                        {currentUser.username}
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <a href="/login" className="nav-link" onClick={this.logOut}>
-                        LogOut
-                      </a>
-                    </li>
+                  <div >
+                    <NavDropdown.Item href={"/profile"}>{currentUser.username}</NavDropdown.Item>
+                    <NavDropdown.Item href={"/login"} onClick={this.logOut}>Log Out</NavDropdown.Item>
                   </div>
                 ) : (
-                    <div className="navbar-nav ml-auto">
-                      <li className="nav-item">
-                        <Link to={"/login"} className="nav-link">
-                          Login
-                      </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link to={"/register"} className="nav-link">
-                          Sign Up
-                      </Link>
-                      </li>
+                    <div>
+                      <NavDropdown.Item href={"/login"}>Login</NavDropdown.Item>
+                      <NavDropdown.Item href={"/register"}>Sign Up</NavDropdown.Item>
                     </div>
                   )}
-              </div>
-              {/* </Nav> */}
+              </NavDropdown>
               <Form inline onSubmit={this.handleSubmit}>
                 <FormControl
                   onChange={this.handleChange}

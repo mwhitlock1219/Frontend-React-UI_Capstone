@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import nopic from '../res/nopic.png';
 
-import { Card, Table, ButtonGroup, Button } from 'react-bootstrap';
+import { Card, Table, ButtonGroup, Button, Container, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faList, faPlusSquare, faBacon } from '@fortawesome/free-solid-svg-icons'
+import { faList, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 
 export default class SearchResults extends Component {
     constructor(props) {
@@ -12,6 +13,8 @@ export default class SearchResults extends Component {
             titleid: '',
         };
         this.redirect = this.redirect.bind(this);
+        this.nextPage = this.nextPage.bind(this);
+        this.previousPage = this.previousPage.bind(this);
     }
 
     componentDidMount() {
@@ -37,16 +40,22 @@ export default class SearchResults extends Component {
 
 
     redirect(results) {
-        console.log("this is JSON: " + results.id);
-        this.setState({ titleid: results.id });
-        console.log("This is state: " + this.state.titleid);
-        localStorage.setItem('titleid', JSON.stringify(results.id));
+        localStorage.setItem('title', JSON.stringify(results));
         window.location.href = '/title_details';
-        let testtitleid = '';
-        if (localStorage && localStorage.getItem('titleid')) {
-            testtitleid = JSON.parse(localStorage.getItem('titleid'));
+    }
+
+    previousPage() {
+        if (this.state.page > 1) {
+            this.setState({ pagenum: this.state.page - 1 });
+            this.fetchApi();
         }
-        console.log(testtitleid);
+    }
+
+    nextPage() {
+        if (this.state.page < this.state.totalpages) {
+            this.setState({ pagenum: this.state.page + 1 });
+            this.fetchApi();
+        }
     }
 
 
@@ -54,40 +63,30 @@ export default class SearchResults extends Component {
     render() {
         const { searchresults } = this.state;
         return (
-            <Card className={"border border-dark bg-dark text-white"}>
-                <Card.Header><FontAwesomeIcon icon={faList} /> Search Results</Card.Header>
-                <Card.Body>
-                    <Table striped bordered hover variant="dark">
-                        <thead>
-                            <tr>
-                                <th>Add Watchlist</th>
-                                <th>Image</th>
-                                <th>Title</th>
-                                <th>Overview</th>
-                                <th>Release date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {searchresults.map((results) => (
-                                <tr key={results.id} align="center" onClick={() => this.redirect(results)}>
-                                    <td>
-                                        <ButtonGroup>
-                                            <Button size="sm" variant="outline-primary"><FontAwesomeIcon icon={faPlusSquare} /></Button>{" "}
-                                            <Button size="sm" variant="outline-danger"><FontAwesomeIcon icon={faBacon} /></Button>
-                                        </ButtonGroup>
-                                    </td>
-                                    <td >
-                                        <img src={`https://image.tmdb.org/t/p/w200${results.poster_path}`} alt="title image" />
-                                    </td>
-                                    <td >{results.media_type === "movie" ? results.title : results.name}</td>
-                                    <td >{results.overview}</td>
-                                    <td >{results.media_type === "movie" ? results.release_date : results.first_air_date}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </Card.Body>
-            </Card>
+            <Container style={{ marginTop: "40px", marginBottom: "80px" }}>
+                <Row>
+                    <Col md={10}>
+                        <h3 style={{ color: "rgba(255,255,255,.5)" }}>Popular TV Shows</h3>
+                    </Col>
+                    <Col md={2}>
+                        <Row className="float-right">
+                            <a onClick={this.previousPage}><img src="https://img.icons8.com/nolan/32/previous.png" /></a>
+                            <h5 style={{ color: "rgba(255,255,255,.5)", marginRight: "10px", marginLeft: "10px" }}>{this.state.page}</h5>
+                            <a onClick={this.nextPage}><img src="https://img.icons8.com/nolan/32/next.png" /></a>
+                        </Row>
+                    </Col>
+                </Row>
+                <Row style={{ marginTop: "20px" }}>
+                    {searchresults.map((title) => (
+                        <Card onMouseEnter={this.changeBackground} onMouseLeave={this.changeBackgroundBack} className={"border border-dark text-light"} style={{ width: "272px", marginTop: "-10px", backgroundColor: "rgb(43 50 56)" }} key={title.id} onClick={() => this.redirect(title)}>
+                            <Card.Img variant="top" src={title.poster_path === null ? nopic : `https://image.tmdb.org/t/p/w200${title.poster_path}`} style={{ height: "330px", width: "220px" }} />
+                            <Card.Title className={"font-weight-bold"} style={{ color: "rgba(255,255,255,.5)", marginTop: "10px" }}>{title.name}</Card.Title>
+                            <Card.Subtitle className="mb-2" style={{ color: "rgba(255,255,255,.5)" }}>{title.first_air_date}</Card.Subtitle>
+                        </Card>
+                    ))}
+
+                </Row>
+            </Container>
 
         );
 
