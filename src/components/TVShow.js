@@ -46,7 +46,8 @@ export default class TVShow extends Component {
         console.log(y);
         const package1 = {
             userId: this.props.user.id,
-            movieId: id
+            movieId: id,
+            type: "tv"
         }
         // LOCAL CODE
         axios.post("http://localhost:8080/watchlist", package1, { headers: { Authorization: `Bearer ${token}` } })

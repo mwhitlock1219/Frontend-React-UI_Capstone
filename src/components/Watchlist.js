@@ -9,26 +9,30 @@ export default class Watchlist extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: [],
-            titles: []
+            user: "",
+            titles: [],
+            watchlist: ""
         };
+        this.pullWatchList = this.pullWatchList.bind(this);
     }
 
 
-    pullWatchList(event, userId) {
-        event.preventDefault();
+    pullWatchList(userId) {
+        // event.preventDefault();
 
         const token = localStorage.getItem("token")
         console.log(token);
 
-        console.log(typeof userId);
-
-        axios.get(`http://localhost:8080/user/${userId}`, { headers: { 
-            'Authorization': `Bearer ${token}`,
-            'userId' : 'userId'
-         } })
+        axios.get(`http://localhost:8080/user/${userId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'userId': 'userId'
+            }
+        })
             .then(response => {
-                console.log(response);
+                this.setState({
+                    watchlist: response.data
+                })
             })
             .catch(
                 error => {
@@ -42,6 +46,13 @@ export default class Watchlist extends Component {
     }
 
     componentDidMount() {
+        const user = JSON.parse(localStorage.getItem("user"));
+        this.pullWatchList(user.id);
+        var arrayOfIds = [];
+        arrayOfIds = this.state.watchlist.split(" ");
+        for (var i = 0; i < arrayOfIds.size; i++) {
+            console.log(arrayOfIds[i]);
+        }
         // will 'fetch'/return api data
         fetch("https://api.themoviedb.org/3/movie/popular?api_key=b644ab6b14fc5346cabffe34357d92a0&language=en-US&page=1")
             .then(response => response.json())
@@ -74,7 +85,7 @@ export default class Watchlist extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            <Button size="sm" variant="outline-primary" onClick={(event) => { this.pullWatchList(event, this.props.user.id) }}><FontAwesomeIcon icon={faPlusSquare} /></Button>
+                            {/* <Button size="sm" variant="outline-primary" onClick={(event) => { this.pullWatchList(event, this.props.user.id) }}><FontAwesomeIcon icon={faPlusSquare} /></Button> */}
                             {/* {titles.map((movie) => (
                                 <tr key={movie.id} align="center">
                                     <td >

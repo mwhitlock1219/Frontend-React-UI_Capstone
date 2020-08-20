@@ -44,7 +44,8 @@ export default class Movie extends Component {
         console.log(y);
         const package1 = {
             userId: this.props.user.id,
-            movieId: id
+            movieId: id,
+            type: "movie"
         }
         // LOCAL CODE
         axios.post("http://localhost:8080/watchlist", package1, { headers: { Authorization: `Bearer ${token}` } })
@@ -55,6 +56,7 @@ export default class Movie extends Component {
                 console.log(error);
             })
 
+        
         // // HEROKU
         // axios.post("https://backend-springboot-capstone.herokuapp.com/watchlist", package1, { headers: { Authorization: `Bearer ${token}` } })
         //     .then(response => {
